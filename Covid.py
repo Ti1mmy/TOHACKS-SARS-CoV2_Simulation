@@ -57,7 +57,7 @@ def on_draw():
     arcade.draw_rectangle_outline(WIDTH/2, HEIGHT/2, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x, slider_y, 10, 25, slide_color)
     arcade.draw_text(f'{((slider_x-220) // 2):.2f}%', WIDTH/2 - 20, HEIGHT/2 - 30, arcade.color.BLACK)
-
+    draw_button(540, 50, 100, 30, arcade.color.GREEN, 'Graph', arcade.color.LIGHT_GREEN, arcade.color.RED)
 
 def on_key_press(key, modifiers):
     pass
@@ -84,6 +84,22 @@ def on_mouse_motion(x, y, dx, dy):
     mouse_x = x
     mouse_y = y
 
+def draw_button(x, y, button_width, button_height, colour_default, text,
+                colour_hover, colour_press):
+    if x + (button_width / 2) > mouse_x > x - (button_width / 2) and \
+            y - (button_height / 2) < mouse_y < y + (button_height / 2) and \
+            mouse_press:
+        arcade.draw_rectangle_filled(x, y, button_width, button_height,
+                                     colour_press)
+    elif x + (button_width / 2) > mouse_x > x - (button_width / 2) and \
+            y - (button_height / 2) < mouse_y < y + (button_height / 2) and \
+            not mouse_press:
+        arcade.draw_rectangle_filled(x, y, button_width, button_height,
+                                     colour_hover)
+    else:
+        arcade.draw_rectangle_filled(x, y, button_width, button_height,
+                                     colour_default)
+    arcade.draw_text_2(text, x-25, y-7, arcade.color.BLACK, 12, bold=True)
 
 if __name__ == '__main__':
     setup()
