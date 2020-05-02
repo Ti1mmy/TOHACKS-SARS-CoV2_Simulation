@@ -29,6 +29,7 @@ def setup():
 def update(delta_time):
     pass
 
+
 def on_draw():
     arcade.start_render()
     # Draw in here...

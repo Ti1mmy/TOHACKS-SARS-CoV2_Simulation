@@ -84,6 +84,7 @@ def on_mouse_motion(x, y, dx, dy):
     mouse_x = x
     mouse_y = y
 
+
 def draw_button(x, y, button_width, button_height, colour_default, text,
                 colour_hover, colour_press):
     if x + (button_width / 2) > mouse_x > x - (button_width / 2) and \
@@ -100,6 +101,7 @@ def draw_button(x, y, button_width, button_height, colour_default, text,
         arcade.draw_rectangle_filled(x, y, button_width, button_height,
                                      colour_default)
     arcade.draw_text_2(text, x-25, y-7, arcade.color.BLACK, 12, bold=True)
+
 
 if __name__ == '__main__':
     setup()
