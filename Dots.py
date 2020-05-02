@@ -2,8 +2,8 @@ import arcade
 import time
 import random
 
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = 640
+HEIGHT = 480
 
 INFECTION_RADIUS = 6
 CHANCE_OF_INFECTION = 20
@@ -46,7 +46,7 @@ def update(delta_time):
             ball_mvmt[i] = random.randrange(-2, 3)
     for i in range(len(ball_pos)):
         k = random.randrange(3)
-        if 100 >= ball_pos[i][1] >= HEIGHT - 100 or 100 >= ball_pos[i][0] >= WIDTH - 100:
+        if 0 >= ball_pos[i][1] >= HEIGHT or 0 >= ball_pos[i][0] >= WIDTH:
             ball_mvmt[i] *= -1
         else:
             if k == 0:
@@ -61,7 +61,7 @@ def update(delta_time):
         for j in range(i + 1, len(ball_pos)):
             if ball_pos[j][2] != ball_pos[i][2]:
                 distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
-                if distance <= 30:
+                if distance <= 10:
                     if ball_pos[i][2] == arcade.color.RED:
                         ball_pos[j][2] = arcade.color.RED
                         if [i, j] not in history:
@@ -106,7 +106,7 @@ def on_draw():
         arcade.draw_circle_filled(ball_pos[i][0], ball_pos[i][1], 5, ball_pos[i][2])
     for i in range(len(history)):
         arcade.draw_line(ball_pos[history[i][0]][0], ball_pos[history[i][0]][1], ball_pos[history[i][1]][0], ball_pos[history[i][1]][1], arcade.color.RED)
-
+    arcade.draw_text_2(f'Number infected: {len(history)+1}\n', 0, 0, arcade.color.BLACK, 24)
 def on_key_press(key, modifiers):
     pass
 
