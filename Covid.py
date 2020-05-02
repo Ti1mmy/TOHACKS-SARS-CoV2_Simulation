@@ -12,8 +12,9 @@ slider_x = WIDTH / 2
 slider_y = HEIGHT / 2
 slide_color = arcade.color.BLUE
 
+
 def setup():
-    arcade.open_window(WIDTH, HEIGHT, "My Arcade Game")
+    arcade.open_window(WIDTH, HEIGHT, "TOHACKS SARS COV-2 Model")
     arcade.set_background_color(arcade.color.WHITE)
     arcade.schedule(update, 1/60)
 
@@ -55,7 +56,7 @@ def on_draw():
     arcade.draw_text(f'mouse_x={mouse_x}\nmouse_y={mouse_y}\nmouse_press={mouse_press}\nslider_x={slider_x}', 0, 0, arcade.color.BLACK)
     arcade.draw_rectangle_outline(WIDTH/2, HEIGHT/2, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x, slider_y, 10, 25, slide_color)
-
+    arcade.draw_text(f'{((slider_x-220) // 2):.2f}%', WIDTH/2 - 20, HEIGHT/2 - 30, arcade.color.BLACK)
 
 
 def on_key_press(key, modifiers):
