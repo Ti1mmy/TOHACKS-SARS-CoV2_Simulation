@@ -13,8 +13,9 @@ mouse_y = 0
 mouse_press = False
 ball_pos = []
 ball_mvmt = []
+history = []
 
-for i in range(400):
+for i in range(90):
     ball_pos.append([random.randrange(100, WIDTH-100), random.randrange(100, HEIGHT-100), arcade.color.BLACK])
     ball_mvmt.append(random.randrange(-2, 3))
 for i in range(1):
@@ -45,7 +46,9 @@ def update(delta_time):
             ball_mvmt[i] = random.randrange(-2, 3)
     for i in range(len(ball_pos)):
         k = random.randrange(3)
-        if 100 <= ball_pos[i][1] <= HEIGHT - 100 or 100 <= ball_pos[i][0] <= WIDTH - 100:
+        if 100 >= ball_pos[i][1] >= HEIGHT - 100 or 100 >= ball_pos[i][0] >= WIDTH - 100:
+            ball_mvmt[i] *= -1
+        else:
             if k == 0:
                 ball_pos[i][0] += ball_mvmt[i]
                 ball_pos[i][1] += ball_mvmt[i]
@@ -53,15 +56,21 @@ def update(delta_time):
                 ball_pos[i][0] += ball_mvmt[i]
             else:
                 ball_pos[i][1] += ball_mvmt[i]
-        else:
-            ball_mvmt[i] *= -1
+
     for i in range(len(ball_pos)):
         for j in range(i + 1, len(ball_pos)):
-            distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
-            if distance <= 10:
-                if ball_pos[i][2] == arcade.color.RED or ball_pos[j][2] == arcade.color.RED:
-                    ball_pos[i][2] = arcade.color.RED
-                    ball_pos[j][2] = arcade.color.RED
+            if ball_pos[j][2] != ball_pos[i][2]:
+                distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
+                if distance <= 30:
+                    if ball_pos[i][2] == arcade.color.RED:
+                        ball_pos[j][2] = arcade.color.RED
+                        if [i, j] not in history:
+                            history.append([i, j])
+                    elif ball_pos[j][2] == arcade.color.RED:
+                        ball_pos[i][2] = arcade.color.RED
+                        if [j, i] not in history:
+                            history.append([i, j])
+    print(history)
 
 
 def is_infected(position1, position2):
