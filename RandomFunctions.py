@@ -30,4 +30,12 @@ if is_infected(person1.position, person2.position):
 print(person1.infected)
 
 
-    
+
+
+positions = []
+
+for i in range(len[positions]):
+    for j in range(i+1, len[positions]):
+        distance = ((positions[j][0]-positions[i][0])^2 +(positions[j][1] - positions[i][1])^2)^(1/2)
+
+        if distance <= INFECTION_RANGE:
