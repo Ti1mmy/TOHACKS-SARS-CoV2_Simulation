@@ -1,8 +1,8 @@
 import arcade
 import time
 
-WIDTH = 640
-HEIGHT = 480
+WIDTH = 1280
+HEIGHT = 720
 
 mouse_x = 0
 mouse_y = 0
@@ -36,7 +36,7 @@ def on_draw():
     arcade.draw_line(0, HEIGHT / 2, WIDTH, HEIGHT / 2, arcade.color.BLACK)
     arcade.draw_line(WIDTH / 2, HEIGHT, WIDTH/2, 0, arcade.color.BLACK)
     for i in range(WIDTH*2):
-        arcade.draw_point(i, 0.5 * (i - WIDTH / 2) ** 2, arcade.color.BLUE, 10)
+        arcade.draw_point(i, 0.001 * (i - WIDTH / 2) ** 2, arcade.color.BLUE, 10)
 
 def on_key_press(key, modifiers):
     pass
