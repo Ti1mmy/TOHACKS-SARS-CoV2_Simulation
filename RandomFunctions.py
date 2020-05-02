@@ -11,8 +11,9 @@ def is_infected(position1, position2):
     else:
         return False
 
-class Person:
+class Person: #add
     infected = False
+    timeInfected = 0
     position = []
 
     def __init__(self, infected, position):
@@ -23,8 +24,9 @@ class Person:
 person1 = Person(False, [50, 50])
 person2 = Person(False, [49, 48])
 
-if is_infected(person1.position, person2.position):
+if is_infected(person1.position, person2.position):  #add
     person1.infected = True
+    person1.timeInfected = time.time()
     PEOPLE_INFECTED.append(person1)
 
 print(person1.infected)
