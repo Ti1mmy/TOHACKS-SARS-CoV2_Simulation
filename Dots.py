@@ -45,7 +45,7 @@ def update(delta_time):
             ball_mvmt[i] = random.randrange(-2, 3)
     for i in range(len(ball_pos)):
         k = random.randrange(3)
-        if 100 < ball_pos[i][1] < HEIGHT - 100 or 100 < ball_pos[i][0] < WIDTH - 100:
+        if 100 <= ball_pos[i][1] <= HEIGHT - 100 or 100 <= ball_pos[i][0] <= WIDTH - 100:
             if k == 0:
                 ball_pos[i][0] += ball_mvmt[i]
                 ball_pos[i][1] += ball_mvmt[i]
@@ -53,7 +53,8 @@ def update(delta_time):
                 ball_pos[i][0] += ball_mvmt[i]
             else:
                 ball_pos[i][1] += ball_mvmt[i]
-        
+        else:
+            ball_mvmt *= -1
 
 
 def is_infected(position1, position2):
