@@ -3,6 +3,7 @@ import random
 INFECTION_RADIUS = 6
 CHANCE_OF_INFECTION = 20
 PEOPLE_INFECTED = []
+BASE_TIME = 1000000000 #add
 
 # when we put the code together remember to make an if that checks if person is already True. efficiecny
 def is_infected(position1, position2):
@@ -11,7 +12,7 @@ def is_infected(position1, position2):
     else:
         return False
 
-class Person: #add
+class Person:
     infected = False
     timeInfected = 0
     position = []
@@ -24,18 +25,18 @@ class Person: #add
 person1 = Person(False, [50, 50])
 person2 = Person(False, [49, 48])
 
-if is_infected(person1.position, person2.position):  #add
+if is_infected(person1.position, person2.position):
     person1.infected = True
     person1.timeInfected = time.time()
     PEOPLE_INFECTED.append(person1)
 
 print(person1.infected)
 
-#shit for the cure
+#add
 CURE_RATE = 1
 
 def cure():
-    for i in range(len(PEOPLE_INFECTED)):
+    for i in range(len(PEOPLE_INFECTED)) and time.time() - PEOPLE_INFECTED[i].timeInfected == BASE_TIME:
         if random.randrange(100) < CURE_RATE:
             luckyBoi = random.choice(PEOPLE_INFECTED)
             PEOPLE_INFECTED.pop(luckyBoi)
