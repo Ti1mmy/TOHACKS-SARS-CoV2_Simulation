@@ -14,7 +14,7 @@ mouse_press = False
 ball_pos = []
 ball_mvmt = []
 
-for i in range(25):
+for i in range(400):
     ball_pos.append([random.randrange(100, WIDTH-100), random.randrange(100, HEIGHT-100), arcade.color.BLACK])
     ball_mvmt.append(random.randrange(-2, 3))
 for i in range(1):
@@ -54,7 +54,14 @@ def update(delta_time):
             else:
                 ball_pos[i][1] += ball_mvmt[i]
         else:
-            ball_mvmt *= -1
+            ball_mvmt[i] *= -1
+    for i in range(len(ball_pos)):
+        for j in range(i + 1, len(ball_pos)):
+            distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
+            if distance <= 10:
+                if ball_pos[i][2] == arcade.color.RED or ball_pos[j][2] == arcade.color.RED:
+                    ball_pos[i][2] = arcade.color.RED
+                    ball_pos[j][2] = arcade.color.RED
 
 
 def is_infected(position1, position2):
