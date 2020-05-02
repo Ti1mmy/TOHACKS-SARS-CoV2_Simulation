@@ -69,7 +69,7 @@ def update(delta_time):
                     elif ball_pos[j][2] == arcade.color.RED:
                         ball_pos[i][2] = arcade.color.RED
                         if [j, i] not in history:
-                            history.append([i, j])
+                            history.append([j, i])
     print(history)
 
 
@@ -104,6 +104,8 @@ def on_draw():
     # arcade.draw_circle_filled(mouse_x, mouse_y, 25, ball_color)
     for i in range(len(ball_pos)):
         arcade.draw_circle_filled(ball_pos[i][0], ball_pos[i][1], 5, ball_pos[i][2])
+    for i in range(len(history)):
+        arcade.draw_line(ball_pos[history[i][0]][0], ball_pos[history[i][0]][1], ball_pos[history[i][1]][0], ball_pos[history[i][1]][1], arcade.color.RED)
 
 def on_key_press(key, modifiers):
     pass
