@@ -36,11 +36,16 @@ print(person1.infected)
 CURE_RATE = 1
 
 def cure():
+    pop_list = []
+
     for i in range(len(PEOPLE_INFECTED)):
         if random.randrange(100) < CURE_RATE and time.time() - PEOPLE_INFECTED[i].timeInfected >= BASE_TIME:
             luckyBoi = random.choice(PEOPLE_INFECTED)
-            PEOPLE_INFECTED.pop(PEOPLE_INFECTED.index(luckyBoi))
+            pop_list.append(PEOPLE_INFECTED.index(luckyBoi))
             luckyBoi.infected = False
+
+    for i in range(0, len(pop_list), -1):
+        PEOPLE_INFECTED.pop(pop_list[i])
 
 
 
