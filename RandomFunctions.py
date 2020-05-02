@@ -30,11 +30,11 @@ if is_infected(person1.position, person2.position):
 print(person1.infected)
 
 #shit for the cure
-CURE_RATE = 0.3
+CURE_RATE = 1
 
 def cure():
     for i in range(len(PEOPLE_INFECTED)):
-        if random.randrange(100) < 1:
+        if random.randrange(100) < CURE_RATE:
             luckyBoi = random.choice(PEOPLE_INFECTED)
             PEOPLE_INFECTED.pop(luckyBoi)
             luckyBoi.infected = False
