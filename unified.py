@@ -154,8 +154,6 @@ def sliders():
         slider_x = 899
     elif slider_x <= 700:
         slider_x = 701
-    arcade.draw_text(f'mouse_x={mouse_x}\nmouse_y={mouse_y}\nmouse_press={mouse_press}\nslider_x={slider_x}', 0, 0,
-                     arcade.color.BLACK)
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x, slider_y, 10, 25, slide_color)
     arcade.draw_text(f'Population: {((slider_x - 700) // 2) + 1}', WIDTH / 2 - 20, HEIGHT / 2 - 30, arcade.color.BLACK)
@@ -184,8 +182,6 @@ def sliders1():
         slider_x1 = 899
     elif slider_x1 <= 700:
         slider_x1 = 701
-    arcade.draw_text(f'mouse_x={mouse_x}\nmouse_y={mouse_y}\nmouse_press={mouse_press}\nslider_x1={slider_x1}', 0, 0,
-                     arcade.color.BLACK)
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 100, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x1, slider_y1, 10, 25, slide1_color)
     arcade.draw_text(f'{((slider_x1 - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 130, arcade.color.BLACK)
