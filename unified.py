@@ -1,3 +1,12 @@
+"""
+TODO
+* Resolve math behind CURE and DEATH
+* Figure out point interpolation to make graph more pretty
+* Label graph better
+* Finishing touches
+* web Interface?
+"""
+
 import arcadeplus as arcade
 import time
 import random
@@ -77,11 +86,8 @@ def setup():
     arcade.set_background_color(arcade.color.LIGHT_STEEL_BLUE)
     arcade.schedule(update, 1 / 60)
 
-    # Override arcade window methods
     window = arcade.get_window()
     window.on_draw = on_draw
-    window.on_key_press = on_key_press
-    window.on_key_release = on_key_release
     window.on_mouse_press = on_mouse_press
     window.on_mouse_release = on_mouse_release
     window.on_mouse_motion = on_mouse_motion
@@ -101,8 +107,6 @@ def update(delta_time):
 
 def on_draw():
     arcade.start_render()
-    # Draw in here...
-    # arcade.draw_circle_filled(mouse_x, mouse_y, 25, ball_color)
     arcade.draw_rectangle_filled(WIDTH * 1 / 5 + 20, HEIGHT / 4 + 30, 640, 480, arcade.color.LIGHT_GREEN)
     for i in range(len(ball_pos)):
         arcade.draw_circle_filled(ball_pos[i][0], ball_pos[i][1], 5, ball_pos[i][2])
@@ -421,15 +425,6 @@ class Person:
     def __init__(self, infected, position):
         self.infected = infected
         self.position = position
-
-
-
-def on_key_press(key, modifiers):
-    pass
-
-
-def on_key_release(key, modifiers):
-    pass
 
 
 def on_mouse_press(x, y, button, modifiers):
