@@ -45,20 +45,30 @@ def setup():
 def update(delta_time):
     global ball_mvmt, position, ball_pos
     for i in range(len(ball_mvmt)):
-        if random.randrange(30) == 0:
+        if random.randrange(50) == 0:
             ball_mvmt[i] = random.randrange(-2, 3)
+            if(ball_mvmt[i] == 0 and random.randrange(2)==1): ball_mvmt[i] = 2
+            elif ball_mvmt[i] == 0: ball_mvmt[i] = -2
     for i in range(len(ball_pos)):
-        k = random.randrange(3)
-        if 0 >= ball_pos[i][1] >= HEIGHT or 0 >= ball_pos[i][0] >= WIDTH:
-            ball_mvmt[i] *= -1
+        k = random.randrange(5)
+        if ball_pos[i][0] >= 250 or ball_pos[i][1] >= 250:
+            ball_mvmt[i] = -1 * (abs(ball_mvmt[i]))
+        if ball_pos[i][1] <= 50 or ball_pos[i][0] <= 50:
+            ball_mvmt[i] = abs(ball_mvmt[i])
+
+        if k == 0:
+            ball_pos[i][0] += ball_mvmt[i]
+            ball_pos[i][1] += ball_mvmt[i]
+        elif k == 1:
+            ball_pos[i][0] += ball_mvmt[i]
+        elif k == 2:
+            ball_pos[i][1] += ball_mvmt[i]
+        elif k == 3:
+            ball_pos[i][0] += ball_mvmt[i]
+            ball_pos[i][1] -= ball_mvmt[i]
         else:
-            if k == 0:
-                ball_pos[i][0] += ball_mvmt[i]
-                ball_pos[i][1] += ball_mvmt[i]
-            elif k == 1:
-                ball_pos[i][0] += ball_mvmt[i]
-            else:
-                ball_pos[i][1] += ball_mvmt[i]
+            ball_pos[i][0] -= ball_mvmt[i]
+            ball_pos[i][1] += ball_mvmt[i]
 
     for i in range(len(ball_pos)):
         for j in range(i + 1, len(ball_pos)):
