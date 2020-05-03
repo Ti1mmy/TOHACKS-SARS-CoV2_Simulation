@@ -46,7 +46,7 @@ press2 = False  # Slider
 
 population = 90
 prev = 90
-reset1 = False # reset button
+reset1 = False  # reset button
 restart = False
 for i in range(population):
     ball_pos.append(
@@ -107,7 +107,7 @@ def dots():
                         ball_pos[j][2] = arcade.color.RED
                         ball_pos[j][3] = time.time()
                         INFECTED += 1
-                        
+
                         if [i, j] not in history:
                             history.append([i, j])
 
@@ -117,7 +117,7 @@ def dots():
                         ball_pos[i][2] = arcade.color.RED
                         ball_pos[i][3] = time.time()
                         INFECTED += 1
-                        
+
                         if [j, i] not in history:
                             history.append([j, i])
 
@@ -181,7 +181,8 @@ def sliders1():
         slider_x1 = 701
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 100, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x1, slider_y1, 10, 25, slide1_color)
-    arcade.draw_text(f'Death Rate: {(slider_x1 - 700) * 0.005:.2f}', WIDTH / 2 - 20, HEIGHT / 2 - 130, arcade.color.BLACK)
+    arcade.draw_text(f'Death Rate: {(slider_x1 - 700) * 0.005:.2f}', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+                     arcade.color.BLACK)
 
     DEATH_RATE = (slider_x1 - 700) * 0.005
 
@@ -210,7 +211,8 @@ def sliders2():
         slider_x2 = 701
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 200, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x2, slider_y2, 10, 25, slide2_color)
-    arcade.draw_text(f'Cure Rate: {(slider_x2 - 700) * 0.005:.2f}', WIDTH / 2 - 20, HEIGHT / 2 - 230, arcade.color.BLACK)
+    arcade.draw_text(f'Cure Rate: {(slider_x2 - 700) * 0.005:.2f}', WIDTH / 2 - 20, HEIGHT / 2 - 230,
+                     arcade.color.BLACK)
 
     CURE_RATE = (slider_x2 - 700) * 0.005
 
@@ -275,12 +277,12 @@ def reset_data():
         ball_mvmt.append(random.randrange(-2, 3))
     for i in range(1):
         ball_pos[0][2] = arcade.color.RED
-    restart=False
+    restart = False
 
 
 def cure():
     global CURED, INFECTED
-    
+
     pop_list = []
 
     for i in range(len(PEOPLE_INFECTED)):
@@ -288,11 +290,11 @@ def cure():
             pop_list.append(PEOPLE_INFECTED.index(PEOPLE_INFECTED[i]))
             PEOPLE_INFECTED[i][2] = arcade.color.GRAY
 
+            CURED += 1
+            INFECTED -= 1
+
     for i in sorted(pop_list, reverse=True):
         del PEOPLE_INFECTED[i]
-        
-    CURED += 1
-    INFECTED -= 1
 
 
 def mortality():
@@ -304,11 +306,11 @@ def mortality():
             pop_list.append(PEOPLE_INFECTED.index(PEOPLE_INFECTED[i]))
             PEOPLE_INFECTED[i][2] = arcade.color.YELLOW
 
+            DEAD += 1
+            INFECTED -= 1
+
     for i in sorted(pop_list, reverse=True):
         del PEOPLE_INFECTED[i]
-        
-    DEAD += 1
-    INFECTED -= 1
 
 
 class Person:
@@ -330,12 +332,14 @@ def on_draw():
     for i in range(len(history)):
         arcade.draw_line(ball_pos[history[i][0]][0], ball_pos[history[i][0]][1], ball_pos[history[i][1]][0],
                          ball_pos[history[i][1]][1], arcade.color.RED)
-    arcade.draw_circle_filled(10, 740, 5, arcade.color.BLACK) #Unaffected
-    arcade.draw_circle_filled(10, 720, 5, arcade.color.RED) #Infected
+    arcade.draw_circle_filled(10, 740, 5, arcade.color.BLACK)  # Unaffected
+    arcade.draw_circle_filled(10, 720, 5, arcade.color.RED)  # Infected
     arcade.draw_circle_filled(10, 700, 5, arcade.color.GRAY)  # Cured
     arcade.draw_circle_filled(10, 680, 5, arcade.color.YELLOW)  # Infected
-    arcade.draw_text(f'Number unaffected: {population-len(history) - 1}\nNumber infected: {len(history) + 1}\nNumber cured: {CURED}\nNumber deceased: {DEAD}\nTime elapsed: {(time_elapsed):.2f}', 20, HEIGHT / 2 + 200,
-                     arcade.color.BLACK, 18)
+    arcade.draw_text(
+        f'Number unaffected: {population - len(history) - 1}\nNumber infected: {len(history) + 1}\nNumber cured: {CURED}\nNumber deceased: {DEAD}\nTime elapsed: {(time_elapsed):.2f} {mouse_x, mouse_y}',
+        20, HEIGHT / 2 + 200,
+        arcade.color.BLACK, 18)
 
     if not start:
         draw_button(WIDTH - 100, 50, 100, 30, arcade.color.GREEN, 'Start', arcade.color.LIGHT_GREEN, arcade.color.RED)
@@ -344,7 +348,8 @@ def on_draw():
     sliders()
     sliders1()
     sliders2()
-    draw_reset_button(WIDTH / 2, HEIGHT / 2 - 300, 150, 50, arcade.color.RED, "Reset", arcade.color.SALMON_PINK, arcade.color.PINK)
+    draw_reset_button(WIDTH / 2, HEIGHT / 2 - 300, 150, 50, arcade.color.RED, "Reset", arcade.color.SALMON_PINK,
+                      arcade.color.PINK)
 
 
 def on_key_press(key, modifiers):
@@ -400,7 +405,7 @@ def draw_button(x, y, button_width, button_height, colour_default, text,
 
 
 def draw_reset_button(x, y, button_width, button_height, colour_default, text,
-                colour_hover, colour_press):
+                      colour_hover, colour_press):
     global restart, reset1
     if x + (button_width / 2) > mouse_x > x - (button_width / 2) and \
             y - (button_height / 2) < mouse_y < y + (button_height / 2) and \
@@ -422,7 +427,7 @@ def draw_reset_button(x, y, button_width, button_height, colour_default, text,
     else:
         arcade.draw_rectangle_filled(x, y, button_width, button_height,
                                      colour_default)
-    arcade.draw_text(text, x-25, y-7, arcade.color.BLACK, 12, bold=True)
+    arcade.draw_text(text, x - 25, y - 7, arcade.color.BLACK, 12, bold=True)
 
 
 if __name__ == '__main__':
