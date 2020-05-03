@@ -270,7 +270,6 @@ def reset_data():
     restart=False
 
 
-
 def cure():
     pop_list = []
 
@@ -326,7 +325,6 @@ def on_draw():
     draw_reset_button(WIDTH / 2, HEIGHT / 2 - 300, 150, 50, arcade.color.RED, "Reset", arcade.color.SALMON_PINK, arcade.color.PINK)
 
 
-
 def on_key_press(key, modifiers):
     pass
 
@@ -377,6 +375,7 @@ def draw_button(x, y, button_width, button_height, colour_default, text,
         arcade.draw_rectangle_filled(x, y, button_width, button_height,
                                      colour_default)
     arcade.draw_text_2(text, x - 25, y - 7, arcade.color.BLACK, 12, bold=True)
+
 
 def draw_reset_button(x, y, button_width, button_height, colour_default, text,
                 colour_hover, colour_press):
