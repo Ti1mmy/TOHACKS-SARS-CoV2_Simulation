@@ -231,8 +231,8 @@ def sliders():
         slider_x = 701
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x, slider_y, 10, 25, slide_color)
-    arcade.draw_text(f'Population: {((slider_x - 700) // 2) + 1}', WIDTH / 2 - 20, HEIGHT / 2 - 30, arcade.color.BLACK)
-    prev = int(((slider_x - 700) // 2) + 1)
+    arcade.draw_text(f'Population: {((slider_x - 700) // 2) + 40}', WIDTH / 2 - 20, HEIGHT / 2 - 30, arcade.color.BLACK)
+    prev = int(((slider_x - 700) // 2) + 40)
 
 
 def sliders1():
@@ -365,7 +365,7 @@ def draw_reset_button(x, y, button_width, button_height, colour_default, text,
 
 def reset_data():
     global history, ball_pos, ball_mvmt, time_elapsed, start, reset, slider_x, slider_y, slide_color, press, slider_x1, slider_y1, slide1_color, press1, slider_x2
-    global slider_y2, slide2_color, press2, population, prev, restart, graph_data
+    global slider_y2, slide2_color, press2, population, prev, restart, graph_data, CURED, INFECTED, DEAD
     history = []
     ball_pos = []
     ball_mvmt = []
@@ -399,6 +399,10 @@ def reset_data():
     for i in range(1):
         ball_pos[0][2] = arcade.color.RED
     restart = False
+    CURED = 0
+    INFECTED = 0
+    DEAD = 0
+
 
 
 def cure():
