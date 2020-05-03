@@ -326,8 +326,13 @@ def on_draw():
     for i in range(len(history)):
         arcade.draw_line(ball_pos[history[i][0]][0], ball_pos[history[i][0]][1], ball_pos[history[i][1]][0],
                          ball_pos[history[i][1]][1], arcade.color.RED)
-    arcade.draw_text(f'Number infected: {len(history) + 1}\nTime elapsed: {(time_elapsed):.2f}', 20, HEIGHT / 2 + 200,
+    arcade.draw_circle_filled(246, 740, 5, arcade.color.BLACK) #Unaffected
+    arcade.draw_circle_filled(212, 719, 5, arcade.color.RED) #Infected
+    arcade.draw_circle_filled(187, 701, 5, arcade.color.GRAY)  # Cured
+    arcade.draw_circle_filled(218, 682, 5, arcade.color.YELLOW)  # Infected
+    arcade.draw_text(f'Number unaffected: {population-len(history) - 1}\nNumber infected: {len(history) + 1}\nNumber cured: {CURED}\nNumber deceased: {DEAD}\nTime elapsed: {(time_elapsed):.2f} {mouse_x, mouse_y}', 20, HEIGHT / 2 + 200,
                      arcade.color.BLACK, 18)
+
     if not start:
         draw_button(WIDTH - 100, 50, 100, 30, arcade.color.GREEN, 'Start', arcade.color.LIGHT_GREEN, arcade.color.RED)
     else:
