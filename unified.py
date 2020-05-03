@@ -19,9 +19,9 @@ DOT_HEIGHT = 480
 
 INFECTION_RADIUS = 10
 CHANCE_OF_INFECTION = 20
-CURE_RATE = 0.5
-DEATH_RATE = 0.5
-BASE_TIME = 5
+CURE_RATE = 300
+DEATH_RATE = 1500
+BASE_TIME = 7
 PEOPLE_INFECTED = []
 
 INFECTED = 0
@@ -43,12 +43,12 @@ slider_y = HEIGHT / 2
 slide_color = arcade.color.BLUE
 press = False  # Slider
 
-slider_x1 = WIDTH / 2
+slider_x1 = WIDTH / 2 - 50
 slider_y1 = HEIGHT / 2 - 100
 slide1_color = arcade.color.BLUE
 press1 = False  # Slider
 
-slider_x2 = WIDTH / 2
+slider_x2 = WIDTH / 2 + 70
 slider_y2 = HEIGHT / 2 - 200
 slide2_color = arcade.color.BLUE
 press2 = False  # Slider
@@ -259,10 +259,18 @@ def sliders1():
         slider_x1 = 701
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 100, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x1, slider_y1, 10, 25, slide1_color)
-    arcade.draw_text(f'Death Rate: {(slider_x1 - 700) * 0.005:.2f}', WIDTH / 2 - 20, HEIGHT / 2 - 130,
-                     arcade.color.BLACK)
+    if slider_x1 >= 833:
+        arcade.draw_text(f'Death Rate: High', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+                         arcade.color.BLACK)
+    elif slider_x1 <= 777:
+        arcade.draw_text(f'Death Rate: Low', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+                         arcade.color.BLACK)
+    else:
+        arcade.draw_text(f'Death Rate: Medium', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+                         arcade.color.BLACK)
 
-    DEATH_RATE = (slider_x1 - 700) * 0.005
+
+    DEATH_RATE = (200 - (slider_x1 - 700)) * 10
 
 
 def sliders2():
@@ -289,10 +297,18 @@ def sliders2():
         slider_x2 = 701
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 200, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x2, slider_y2, 10, 25, slide2_color)
-    arcade.draw_text(f'Cure Rate: {(slider_x2 - 700) * 0.005:.2f}', WIDTH / 2 - 20, HEIGHT / 2 - 230,
-                     arcade.color.BLACK)
+    
+    if slider_x2 >= 833:
+        arcade.draw_text(f'Cure Rate: High', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+                         arcade.color.BLACK)
+    elif slider_x2 <= 777:
+        arcade.draw_text(f'Cure Rate: Low', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+                         arcade.color.BLACK)
+    else:
+        arcade.draw_text(f'Cure Rate: Medium', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+                         arcade.color.BLACK)
 
-    CURE_RATE = (slider_x2 - 700) * 0.005
+    CURE_RATE = (200 - (slider_x2 - 700)) * 10
 
 
 def draw_button(x, y, button_width, button_height, colour_default, text,
@@ -386,12 +402,12 @@ def reset_data():
 
 
 def cure():
-    global CURED, INFECTED
+    global CURED, INFECTED, CURE_RATE
 
     pop_list = []
 
     for i in range(len(PEOPLE_INFECTED)):
-        if random.randrange(100) < CURE_RATE and (time.time() - PEOPLE_INFECTED[i][3]) >= BASE_TIME:
+        if random.randrange(CURE_RATE) < 0.5 and (time.time() - PEOPLE_INFECTED[i][3]) >= BASE_TIME:
             pop_list.append(PEOPLE_INFECTED.index(PEOPLE_INFECTED[i]))
             PEOPLE_INFECTED[i][2] = arcade.color.GRAY
 
@@ -403,11 +419,11 @@ def cure():
 
 
 def mortality():
-    global DEAD, INFECTED
+    global DEAD, INFECTED, DEATH_RATE
     pop_list = []
 
     for i in range(len(PEOPLE_INFECTED)):
-        if random.randrange(100) < DEATH_RATE and (time.time() - PEOPLE_INFECTED[i][3]) >= BASE_TIME:
+        if random.randrange(DEATH_RATE) < 0.5 and (time.time() - PEOPLE_INFECTED[i][3]) >= BASE_TIME:
             pop_list.append(PEOPLE_INFECTED.index(PEOPLE_INFECTED[i]))
             PEOPLE_INFECTED[i][2] = arcade.color.YELLOW
 
