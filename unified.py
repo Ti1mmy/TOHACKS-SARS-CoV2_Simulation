@@ -181,7 +181,9 @@ def sliders1():
         slider_x1 = 701
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 100, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x1, slider_y1, 10, 25, slide1_color)
-    arcade.draw_text(f'{((slider_x1 - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 130, arcade.color.BLACK)
+    arcade.draw_text(f'Death Rate: {(slider_x1 - 700) * 0.005:.2f}', WIDTH / 2 - 20, HEIGHT / 2 - 130, arcade.color.BLACK)
+
+    DEATH_RATE = (slider_x1 - 700) * 0.005
 
 
 def sliders2():
@@ -208,7 +210,9 @@ def sliders2():
         slider_x2 = 701
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 200, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x2, slider_y2, 10, 25, slide2_color)
-    arcade.draw_text(f'{((slider_x2 - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 230, arcade.color.BLACK)
+    arcade.draw_text(f'Cure Rate: {(slider_x2 - 700) * 0.005:.2f}', WIDTH / 2 - 20, HEIGHT / 2 - 230, arcade.color.BLACK)
+
+    CURE_RATE = (slider_x2 - 700) * 0.005
 
 
 def setup():
