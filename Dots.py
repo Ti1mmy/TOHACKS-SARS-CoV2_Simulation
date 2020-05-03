@@ -5,8 +5,11 @@ import random
 WIDTH = 640
 HEIGHT = 480
 
-INFECTION_RADIUS = 6
+INFECTION_RADIUS = 10
 CHANCE_OF_INFECTION = 20
+CURE_RATE = 1
+BASE_TIME = 1000000000
+PEOPLE_INFECTED = []
 
 mouse_x = 0
 mouse_y = 0
@@ -61,7 +64,7 @@ def update(delta_time):
         for j in range(i + 1, len(ball_pos)):
             if ball_pos[j][2] != ball_pos[i][2]:
                 distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
-                if distance <= 10:
+                if distance <= INFECTION_RADIUS:
                     if ball_pos[i][2] == arcade.color.RED:
                         ball_pos[j][2] = arcade.color.RED
                         if [i, j] not in history:
@@ -73,11 +76,17 @@ def update(delta_time):
     print(history)
 
 
-def is_infected(position1, position2):
-    if (position2[0] - INFECTION_RADIUS <= position1[0] and position1[0] <= position2[0] + INFECTION_RADIUS) and (position2[1] - INFECTION_RADIUS <= position1[1] and position1[1] <= position2[1] + INFECTION_RADIUS):
-        return random.randrange(100) < CHANCE_OF_INFECTION
-    else:
-        return False
+def cure():
+    pop_list = []
+
+    for i in range(len(PEOPLE_INFECTED)):
+        if random.randrange(100) < CURE_RATE and time.time() - PEOPLE_INFECTED[i].timeInfected >= BASE_TIME:
+            luckyBoi = random.choice(PEOPLE_INFECTED)
+            pop_list.append(PEOPLE_INFECTED.index(luckyBoi))
+            luckyBoi.infected = False
+
+    for i in range(0, len(pop_list), -1):
+        PEOPLE_INFECTED.pop(pop_list[i])
 
 
 class Person:
@@ -87,15 +96,6 @@ class Person:
     def __init__(self, infected, position):
         self.infected = infected
         self.position = position
-
-
-person1 = Person(False, [50, 50])
-person2 = Person(False, [49, 48])
-
-if is_infected(person1.position, person2.position):
-    person1.infected = True
-
-print(person1.infected)
 
 
 def on_draw():
