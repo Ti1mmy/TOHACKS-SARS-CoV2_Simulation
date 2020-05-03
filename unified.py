@@ -158,7 +158,7 @@ def sliders():
 
 
 def sliders1():
-    global slide1_color, slider_x1, press1
+    global slide1_color, slider_x1, press1, DEATH_RATE
     if slider_x1 - 5 <= mouse_x <= slider_x1 + 5 and slider_y1 - 13 <= mouse_y <= slider_y1 + 13:
         slide1_color = arcade.color.GRAY
         if mouse_press:
@@ -188,7 +188,7 @@ def sliders1():
 
 
 def sliders2():
-    global slide2_color, slider_x2, press2
+    global slide2_color, slider_x2, press2, CURE_RATE
     if slider_x2 - 5 <= mouse_x <= slider_x2 + 5 and slider_y2 - 13 <= mouse_y <= slider_y2 + 13:
         slide2_color = arcade.color.GRAY
         if mouse_press:
