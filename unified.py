@@ -10,8 +10,9 @@ DOT_HEIGHT = 480
 
 INFECTION_RADIUS = 10
 CHANCE_OF_INFECTION = 20
-CURE_RATE = 1
-BASE_TIME = 3000000000
+CURE_RATE = 0.5
+DEATH_RATE = 0.5
+BASE_TIME = 5
 PEOPLE_INFECTED = []
 
 mouse_x = 0
@@ -22,30 +23,29 @@ ball_mvmt = []
 history = []
 time_elapsed = 0
 start = False
-reset = True # Button
-
+reset = True  # Button
 
 slider_x = WIDTH / 2
 slider_y = HEIGHT / 2
 slide_color = arcade.color.BLUE
-press = False # Slider
+press = False  # Slider
 
 slider_x1 = WIDTH / 2
 slider_y1 = HEIGHT / 2 - 100
 slide1_color = arcade.color.BLUE
-press1 = False # Slider
+press1 = False  # Slider
 
 slider_x2 = WIDTH / 2
 slider_y2 = HEIGHT / 2 - 200
 slide2_color = arcade.color.BLUE
-press2 = False # Slider
+press2 = False  # Slider
 
 population = 90
 prev = 90
 
-
 for i in range(population):
-    ball_pos.append([random.randrange(100, DOT_WIDTH-100), random.randrange(100, DOT_HEIGHT-100), arcade.color.BLACK, 0])
+    ball_pos.append(
+        [random.randrange(100, DOT_WIDTH - 100), random.randrange(100, DOT_HEIGHT - 100), arcade.color.BLACK, 0])
     ball_mvmt.append(random.randrange(-2, 3))
 for i in range(1):
     ball_pos[0][2] = arcade.color.RED
@@ -58,7 +58,8 @@ def initilization():
         ball_pos = []
         for i in range(population):
             ball_pos.append(
-                [random.randrange(100, DOT_WIDTH - 100), random.randrange(100, DOT_HEIGHT - 100), arcade.color.BLACK, 0])
+                [random.randrange(100, DOT_WIDTH - 100), random.randrange(100, DOT_HEIGHT - 100), arcade.color.BLACK,
+                 0])
             ball_mvmt.append(random.randrange(-2, 3))
         for i in range(1):
             ball_pos[0][2] = arcade.color.RED
@@ -98,24 +99,26 @@ def dots():
             if ball_pos[j][2] != ball_pos[i][2]:
                 distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
                 if distance <= INFECTION_RADIUS:
-                    if ball_pos[i][2] == arcade.color.RED and ball_pos[j][2] != arcade.color.GRAY and ball_pos[j][2] != arcade.color.YELLOW:
+                    if ball_pos[i][2] == arcade.color.RED and ball_pos[j][2] == arcade.color.BLACK:
                         ball_pos[j][2] = arcade.color.RED
                         ball_pos[j][3] = time.time()
                         if [i, j] not in history:
                             history.append([i, j])
-                    elif ball_pos[j][2] == arcade.color.RED and ball_pos[i][2] != arcade.color.GRAY and ball_pos[i][2] != arcade.color.YELLOW:
+
+                        if ball_pos[j] not in PEOPLE_INFECTED:
+                            PEOPLE_INFECTED.append(ball_pos[j])
+
+                    elif ball_pos[j][2] == arcade.color.RED and ball_pos[i][2] == arcade.color.BLACK:
                         ball_pos[i][2] = arcade.color.RED
                         ball_pos[i][3] = time.time()
                         if [j, i] not in history:
                             history.append([j, i])
 
-                    if ball_pos[i] not in PEOPLE_INFECTED:
-                        PEOPLE_INFECTED.append(ball_pos[i])
-
-                    if ball_pos[j] not in PEOPLE_INFECTED:
-                        PEOPLE_INFECTED.append(ball_pos[j])
+                        if ball_pos[i] not in PEOPLE_INFECTED:
+                            PEOPLE_INFECTED.append(ball_pos[i])
     time_elapsed += 0.05
     cure()
+    mortality()
     print(history)
 
 
@@ -176,8 +179,8 @@ def sliders1():
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 100, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x1, slider_y1, 10, 25, slide1_color)
     arcade.draw_text(f'{((slider_x1 - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 130, arcade.color.BLACK)
-    
-    
+
+
 def sliders2():
     global slide2_color, slider_x2, press2
     if slider_x2 - 5 <= mouse_x <= slider_x2 + 5 and slider_y2 - 13 <= mouse_y <= slider_y2 + 13:
@@ -203,12 +206,12 @@ def sliders2():
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 200, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x2, slider_y2, 10, 25, slide2_color)
     arcade.draw_text(f'{((slider_x2 - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 230, arcade.color.BLACK)
-    
+
 
 def setup():
     arcade.open_window(WIDTH, HEIGHT, "TOHACKS SARS COV-2 Model")
     arcade.set_background_color(arcade.color.LIGHT_STEEL_BLUE)
-    arcade.schedule(update, 1/60)
+    arcade.schedule(update, 1 / 60)
 
     # Override arcade window methods
     window = arcade.get_window()
@@ -228,32 +231,31 @@ def update(delta_time):
     elif not start:
         initilization()
 
+
 def cure():
     pop_list = []
 
     for i in range(len(PEOPLE_INFECTED)):
-        if random.randrange(100) < CURE_RATE and time.time() - PEOPLE_INFECTED[i][3] >= BASE_TIME:
-            luckyBoi = random.choice(PEOPLE_INFECTED)
-            pop_list.append(PEOPLE_INFECTED.index(luckyBoi))
-            luckyBoi[2] = arcade.color.GRAY
+        if random.randrange(100) < CURE_RATE and (time.time() - PEOPLE_INFECTED[i][3]) >= BASE_TIME:
+            pop_list.append(PEOPLE_INFECTED.index(PEOPLE_INFECTED[i]))
+            PEOPLE_INFECTED[i][2] = arcade.color.GRAY
 
-    for i in range(0, len(pop_list), -1):
-        PEOPLE_INFECTED.pop(pop_list[i])
-        
-        
+    for i in sorted(pop_list, reverse=True):
+        del PEOPLE_INFECTED[i]
+
+
 def mortality():
     pop_list = []
 
     for i in range(len(PEOPLE_INFECTED)):
-        if random.randrange(100) < DEATH_RATE and time.time() - PEOPLE_INFECTED[i][3] >= BASE_TIME:
-            unluckyBoi = random.choice(PEOPLE_INFECTED)
-            pop_list.append(PEOPLE_INFECTED.index(unluckyBoi))
-            unluckyBoi[2] = arcade.color.YELLOW
+        if random.randrange(100) < DEATH_RATE and (time.time() - PEOPLE_INFECTED[i][3]) >= BASE_TIME:
+            pop_list.append(PEOPLE_INFECTED.index(PEOPLE_INFECTED[i]))
+            PEOPLE_INFECTED[i][2] = arcade.color.YELLOW
 
-    for i in range(0, len(pop_list), -1):
-        PEOPLE_INFECTED.pop(pop_list[i])
-        
-        
+    for i in sorted(pop_list, reverse=True):
+        del PEOPLE_INFECTED[i]
+
+
 class Person:
     infected = False
     position = []
@@ -267,11 +269,12 @@ def on_draw():
     arcade.start_render()
     # Draw in here...
     # arcade.draw_circle_filled(mouse_x, mouse_y, 25, ball_color)
-    arcade.draw_rectangle_filled(WIDTH * 1/5 + 20, HEIGHT / 4 + 30, 640, 480, arcade.color.LIGHT_GREEN)
+    arcade.draw_rectangle_filled(WIDTH * 1 / 5 + 20, HEIGHT / 4 + 30, 640, 480, arcade.color.LIGHT_GREEN)
     for i in range(len(ball_pos)):
         arcade.draw_circle_filled(ball_pos[i][0], ball_pos[i][1], 5, ball_pos[i][2])
     for i in range(len(history)):
-        arcade.draw_line(ball_pos[history[i][0]][0], ball_pos[history[i][0]][1], ball_pos[history[i][1]][0], ball_pos[history[i][1]][1], arcade.color.RED)
+        arcade.draw_line(ball_pos[history[i][0]][0], ball_pos[history[i][0]][1], ball_pos[history[i][1]][0],
+                         ball_pos[history[i][1]][1], arcade.color.RED)
     arcade.draw_text(f'Number infected: {len(history) + 1}\nTime elapsed: {(time_elapsed):.2f}', 20, HEIGHT / 2 + 200,
                      arcade.color.BLACK, 18)
     if not start:
@@ -281,6 +284,7 @@ def on_draw():
     sliders()
     sliders1()
     sliders2()
+
 
 def on_key_press(key, modifiers):
     pass
@@ -331,8 +335,7 @@ def draw_button(x, y, button_width, button_height, colour_default, text,
     else:
         arcade.draw_rectangle_filled(x, y, button_width, button_height,
                                      colour_default)
-    arcade.draw_text_2(text, x-25, y-7, arcade.color.BLACK, 12, bold=True)
-
+    arcade.draw_text_2(text, x - 25, y - 7, arcade.color.BLACK, 12, bold=True)
 
 
 if __name__ == '__main__':
