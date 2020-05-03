@@ -21,7 +21,7 @@ INFECTION_RADIUS = 15
 CHANCE_OF_INFECTION = 20
 CURE_RATE = 300
 DEATH_RATE = 1500
-BASE_TIME = 7
+BASE_TIME = 11
 PEOPLE_INFECTED = []
 
 INFECTED = 0
@@ -181,7 +181,7 @@ def dots():
         for j in range(i + 1, len(ball_pos)):
             if ball_pos[j][2] != ball_pos[i][2]:
                 distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
-                if distance <= INFECTION_RADIUS:
+                if distance <= INFECTION_RADIUS and random.randrange(1000) < 150:
                     if ball_pos[i][2] == arcade.color.RED and ball_pos[j][2] == arcade.color.BLACK:
                         ball_pos[j][2] = arcade.color.RED
                         ball_pos[j][3] = time.time()
