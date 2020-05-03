@@ -112,6 +112,7 @@ def sliders():
                 slider_x = mouse_x
     elif not mouse_press and press:
         slide_color = arcade.color.BLUE
+        press = False
     elif press:
         if 700 < slider_x < 900:
             slider_x = mouse_x
@@ -140,6 +141,7 @@ def sliders1():
                 slider_x1 = mouse_x
     elif not mouse_press and press1:
         slide1_color = arcade.color.BLUE
+        press1 = False
     elif press1:
         if 700 < slider_x1 < 900:
             slider_x1 = mouse_x
@@ -168,6 +170,7 @@ def sliders2():
                 slider_x2 = mouse_x
     elif not mouse_press and press2:
         slide2_color = arcade.color.BLUE
+        press2 = False
     elif press2:
         if 700 < slider_x2 < 900:
             slider_x2 = mouse_x
