@@ -2,8 +2,11 @@ import arcade
 import time
 import random
 
-WIDTH = 640
-HEIGHT = 480
+WIDTH = 1600
+HEIGHT = 900
+
+DOT_WIDTH = 640
+DOT_HEIGHT = 480
 
 INFECTION_RADIUS = 10
 CHANCE_OF_INFECTION = 20
@@ -18,45 +21,30 @@ ball_pos = []
 ball_mvmt = []
 history = []
 time_elapsed = 0
+start = False
+reset = True # Button
 
 for i in range(90):
-    ball_pos.append([random.randrange(100, WIDTH-100), random.randrange(100, HEIGHT-100), arcade.color.BLACK, 0])
+    ball_pos.append([random.randrange(100, DOT_WIDTH-100), random.randrange(100, DOT_HEIGHT-100), arcade.color.BLACK, 0])
     ball_mvmt.append(random.randrange(-2, 3))
 for i in range(1):
     ball_pos[0][2] = arcade.color.RED
 
-
-def setup():
-    arcade.open_window(WIDTH, HEIGHT, "TOHACKS SARS COV-2 Model")
-    arcade.set_background_color(arcade.color.WHITE)
-    arcade.schedule(update, 1/60)
-
-    # Override arcade window methods
-    window = arcade.get_window()
-    window.on_draw = on_draw
-    window.on_key_press = on_key_press
-    window.on_key_release = on_key_release
-    window.on_mouse_press = on_mouse_press
-    window.on_mouse_release = on_mouse_release
-    window.on_mouse_motion = on_mouse_motion
-
-    arcade.run()
-
-
-def update(delta_time):
+def dots():
     global ball_mvmt, position, ball_pos, time_elapsed
     for i in range(len(ball_mvmt)):
         if random.randrange(50) == 0:
             ball_mvmt[i] = random.randrange(-2, 3)
-            if(ball_mvmt[i] == 0 and random.randrange(2)==1): ball_mvmt[i] = 2
-            elif ball_mvmt[i] == 0: ball_mvmt[i] = -2
+            if (ball_mvmt[i] == 0 and random.randrange(2) == 1):
+                ball_mvmt[i] = 2
+            elif ball_mvmt[i] == 0:
+                ball_mvmt[i] = -2
     for i in range(len(ball_pos)):
         k = random.randrange(5)
-        if ball_pos[i][0] >= WIDTH-100 or ball_pos[i][1] >= HEIGHT-100:
+        if ball_pos[i][0] >= DOT_WIDTH - 100 or ball_pos[i][1] >= DOT_HEIGHT - 100:
             ball_mvmt[i] = -1 * (abs(ball_mvmt[i]))
         if ball_pos[i][1] <= 100 or ball_pos[i][0] <= 100:
             ball_mvmt[i] = abs(ball_mvmt[i])
-
         if k == 0:
             ball_pos[i][0] += ball_mvmt[i]
             ball_pos[i][1] += ball_mvmt[i]
@@ -97,6 +85,28 @@ def update(delta_time):
     print(history)
 
 
+def setup():
+    arcade.open_window(WIDTH, HEIGHT, "TOHACKS SARS COV-2 Model")
+    arcade.set_background_color(arcade.color.LIGHT_STEEL_BLUE)
+    arcade.schedule(update, 1/60)
+
+    # Override arcade window methods
+    window = arcade.get_window()
+    window.on_draw = on_draw
+    window.on_key_press = on_key_press
+    window.on_key_release = on_key_release
+    window.on_mouse_press = on_mouse_press
+    window.on_mouse_release = on_mouse_release
+    window.on_mouse_motion = on_mouse_motion
+
+    arcade.run()
+
+
+def update(delta_time):
+    if start:
+        dots()
+
+
 def cure():
     pop_list = []
 
@@ -123,12 +133,18 @@ def on_draw():
     arcade.start_render()
     # Draw in here...
     # arcade.draw_circle_filled(mouse_x, mouse_y, 25, ball_color)
+    arcade.draw_rectangle_filled(WIDTH * 1/5 + 20, HEIGHT / 4 + 30, 640, 480, arcade.color.LIGHT_GREEN)
     for i in range(len(ball_pos)):
         arcade.draw_circle_filled(ball_pos[i][0], ball_pos[i][1], 5, ball_pos[i][2])
     for i in range(len(history)):
         arcade.draw_line(ball_pos[history[i][0]][0], ball_pos[history[i][0]][1], ball_pos[history[i][1]][0], ball_pos[history[i][1]][1], arcade.color.RED)
-    arcade.draw_text(f'Number infected: {len(history) + 1}\nTime elapsed: {(time_elapsed):.2f}', 0, 0,
+    arcade.draw_text(f'Number infected: {len(history) + 1}\nTime elapsed: {(time_elapsed):.2f}', 20, HEIGHT / 2 + 200,
                      arcade.color.BLACK, 18)
+    if not start:
+        draw_button(WIDTH - 100, 50, 100, 30, arcade.color.GREEN, 'Start', arcade.color.LIGHT_GREEN, arcade.color.RED)
+    else:
+        draw_button(WIDTH - 100, 50, 100, 30, arcade.color.GREEN, 'Pause', arcade.color.LIGHT_GREEN, arcade.color.RED)
+
 def on_key_press(key, modifiers):
     pass
 
@@ -153,6 +169,33 @@ def on_mouse_motion(x, y, dx, dy):
     global mouse_x, mouse_y
     mouse_x = x
     mouse_y = y
+
+
+def draw_button(x, y, button_width, button_height, colour_default, text,
+                colour_hover, colour_press):
+    global start, reset
+    if x + (button_width / 2) > mouse_x > x - (button_width / 2) and \
+            y - (button_height / 2) < mouse_y < y + (button_height / 2) and \
+            mouse_press:
+        arcade.draw_rectangle_filled(x, y, button_width, button_height,
+                                     colour_press)
+        if not start and reset:
+            start = True
+            reset = False
+        elif start and reset:
+            start = False
+            reset = False
+    elif x + (button_width / 2) > mouse_x > x - (button_width / 2) and \
+            y - (button_height / 2) < mouse_y < y + (button_height / 2) and \
+            not mouse_press:
+        arcade.draw_rectangle_filled(x, y, button_width, button_height,
+                                     colour_hover)
+        reset = True
+    else:
+        arcade.draw_rectangle_filled(x, y, button_width, button_height,
+                                     colour_default)
+    arcade.draw_text_2(text, x-25, y-7, arcade.color.BLACK, 12, bold=True)
+
 
 
 if __name__ == '__main__':
