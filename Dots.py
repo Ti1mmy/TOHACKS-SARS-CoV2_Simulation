@@ -1,12 +1,3 @@
-"""
-TODO
-
-* More than 1 patient-0s
-    * Will have to be different colours
-* Set boundaries to work properly
-* More data output/inputs
-"""
-
 import arcade
 import time
 import random
@@ -28,9 +19,10 @@ ball_mvmt = []
 history = []
 
 for i in range(90):
-    ball_pos.append([random.randrange(100, WIDTH-100), random.randrange(100, HEIGHT-100), arcade.color.BLACK])
+    ball_pos.append([random.randrange(100, WIDTH-100), random.randrange(100, HEIGHT-100), arcade.color.BLACK, 0])
     ball_mvmt.append(random.randrange(-2, 3))
-ball_pos[0][2] = arcade.color.RED
+for i in range(1):
+    ball_pos[0][2] = arcade.color.RED
 
 
 def setup():
@@ -75,16 +67,18 @@ def update(delta_time):
                 if distance <= INFECTION_RADIUS:
                     if ball_pos[i][2] == arcade.color.RED:
                         ball_pos[j][2] = arcade.color.RED
+                        ball_pos[j][3] = time.time()
                         if [i, j] not in history:
                             history.append([i, j])
                     elif ball_pos[j][2] == arcade.color.RED:
                         ball_pos[i][2] = arcade.color.RED
+                        ball_pos[i][3] = time.time()
                         if [j, i] not in history:
                             history.append([j, i])
-                            
+
                     if ball_pos[i] not in PEOPLE_INFECTED:
                         PEOPLE_INFECTED.append(ball_pos[i])
-                        
+
                     if ball_pos[j] not in PEOPLE_INFECTED:
                         PEOPLE_INFECTED.append(ball_pos[j])
     print(history)
