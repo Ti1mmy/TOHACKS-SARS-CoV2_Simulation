@@ -395,8 +395,9 @@ def reset_data():
         ball_pos.append(
             [random.randrange(100, DOT_WIDTH - 100), random.randrange(100, DOT_HEIGHT - 100), arcade.color.BLACK, 0])
         ball_mvmt.append(random.randrange(-2, 3))
-    for i in range(1):
-        ball_pos[0][2] = arcade.color.RED
+    ball_pos[0][0] = DOT_WIDTH/2
+    ball_POS[0][1] = DOT_HEIGHT/2
+    ball_pos[0][2] = arcade.color.RED
     restart = False
     CURED = 0
     INFECTED = 0
