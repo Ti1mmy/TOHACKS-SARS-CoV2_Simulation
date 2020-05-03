@@ -6,7 +6,7 @@ WIDTH = 640
 HEIGHT = 480
 
 INFECTION_RADIUS = 10
-CHANCE_OF_INFECTION = 20
+CHANCE_OF_INFECTION = 0.05
 CURE_RATE = 1
 BASE_TIME = 3000000000
 PEOPLE_INFECTED = []
@@ -75,7 +75,7 @@ def update(delta_time):
         for j in range(i + 1, len(ball_pos)):
             if ball_pos[j][2] != ball_pos[i][2]:
                 distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
-                if distance <= INFECTION_RADIUS:
+                if distance <= INFECTION_RADIUS and random.randrange(1/CHANCE_OF_INFECTION) == 0:
                     if ball_pos[i][2] == arcade.color.RED:
                         ball_pos[j][2] = arcade.color.RED
                         ball_pos[j][3] = time.time()

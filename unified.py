@@ -64,12 +64,12 @@ def dots():
             if ball_pos[j][2] != ball_pos[i][2]:
                 distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
                 if distance <= INFECTION_RADIUS:
-                    if ball_pos[i][2] == arcade.color.RED:
+                    if ball_pos[i][2] == arcade.color.RED and ball_pos[j][2] != arcade.color.GRAY and ball_pos[j][2] != arcade.color.YELLOW:
                         ball_pos[j][2] = arcade.color.RED
                         ball_pos[j][3] = time.time()
                         if [i, j] not in history:
                             history.append([i, j])
-                    elif ball_pos[j][2] == arcade.color.RED:
+                    elif ball_pos[j][2] == arcade.color.RED and ball_pos[i][2] != arcade.color.GRAY and ball_pos[i][2] != arcade.color.YELLOW:
                         ball_pos[i][2] = arcade.color.RED
                         ball_pos[i][3] = time.time()
                         if [j, i] not in history:
@@ -114,12 +114,25 @@ def cure():
         if random.randrange(100) < CURE_RATE and time.time() - PEOPLE_INFECTED[i][3] >= BASE_TIME:
             luckyBoi = random.choice(PEOPLE_INFECTED)
             pop_list.append(PEOPLE_INFECTED.index(luckyBoi))
-            luckyBoi[2] = arcade.color.BLACK
+            luckyBoi[2] = arcade.color.GRAY
 
     for i in range(0, len(pop_list), -1):
         PEOPLE_INFECTED.pop(pop_list[i])
+        
+        
+def mortality():
+    pop_list = []
 
+    for i in range(len(PEOPLE_INFECTED)):
+        if random.randrange(100) < DEATH_RATE and time.time() - PEOPLE_INFECTED[i][3] >= BASE_TIME:
+            unluckyBoi = random.choice(PEOPLE_INFECTED)
+            pop_list.append(PEOPLE_INFECTED.index(unluckyBoi))
+            unluckyBoi[2] = arcade.color.YELLOW
 
+    for i in range(0, len(pop_list), -1):
+        PEOPLE_INFECTED.pop(pop_list[i])
+        
+        
 class Person:
     infected = False
     position = []
