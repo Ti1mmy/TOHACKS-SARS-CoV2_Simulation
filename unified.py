@@ -48,6 +48,8 @@ population = 90
 prev = 90
 reset1 = False  # reset button
 restart = False
+graph_data = []
+
 for i in range(population):
     ball_pos.append(
         [random.randrange(100, DOT_WIDTH - 100), random.randrange(100, DOT_HEIGHT - 100), arcade.color.BLACK, 0])
@@ -68,6 +70,20 @@ def initilization():
             ball_mvmt.append(random.randrange(-2, 3))
         for i in range(1):
             ball_pos[0][2] = arcade.color.RED
+
+def graph():
+    middle_x = WIDTH * 3/4 + 70
+    middle_y = HEIGHT * 3/4 - 100
+    length = 500
+    width = 500
+    arcade.draw_rectangle_filled(middle_x, middle_y, length, width, arcade.color.WHITE)
+    arcade.draw_line(middle_x - width/2, middle_y - length/2 + 20, middle_x + width/2, middle_y - length/2 + 20, arcade.color.BLACK)
+    arcade.draw_line(middle_x - width/2 + 20, middle_y - length/2, middle_x - width/2 + 20, middle_y + length/2, arcade.color.BLACK)
+    for point in graph_data:
+        arcade.draw_point(point[4] * 4 + middle_x - width/2 + 20, point[0] * 4 + middle_y - length/2 + 20, arcade.color.BLACK, 5)
+        arcade.draw_point(point[4] * 4 + middle_x - width/2 + 20, point[1] * 4 + middle_y - length/2 + 20, arcade.color.RED, 5)
+        arcade.draw_point(point[4] * 4 + middle_x - width/2 + 20, point[2] * 4 + middle_y - length/2 + 20, arcade.color.GRAY, 5)
+        arcade.draw_point(point[4] * 4 + middle_x - width/2 + 20, point[3] * 4 + middle_y - length/2 + 20, arcade.color.YELLOW, 5)
 
 
 def dots():
@@ -126,7 +142,6 @@ def dots():
     time_elapsed += 0.05
     cure()
     mortality()
-    print(history)
 
 
 def sliders():
@@ -241,11 +256,11 @@ def update(delta_time):
         initilization()
     if restart:
         reset_data()
-
+    graph_data.append([population - len(history) - 1, (len(history) + 1)-CURED-DEAD, CURED, DEAD, time_elapsed])
 
 def reset_data():
     global history, ball_pos, ball_mvmt, time_elapsed, start, reset, slider_x, slider_y, slide_color, press, slider_x1, slider_y1, slide1_color, press1, slider_x2
-    global slider_y2, slide2_color, press2, population, prev, restart
+    global slider_y2, slide2_color, press2, population, prev, restart, graph_data
     history = []
     ball_pos = []
     ball_mvmt = []
@@ -268,6 +283,7 @@ def reset_data():
     slider_y2 = HEIGHT / 2 - 200
     slide2_color = arcade.color.BLUE
     press2 = False  # Slider
+    graph_data = []
 
     population = 90
     prev = 90
@@ -350,7 +366,7 @@ def on_draw():
     sliders2()
     draw_reset_button(WIDTH / 2, HEIGHT / 2 - 300, 150, 50, arcade.color.RED, "Reset", arcade.color.SALMON_PINK,
                       arcade.color.PINK)
-
+    graph()
 
 def on_key_press(key, modifiers):
     pass
