@@ -406,6 +406,7 @@ def reset_data():
     BASE_TIME = 11
     PEOPLE_INFECTED = []
 
+
 def cure():
     global CURED, INFECTED, CURE_RATE
 
