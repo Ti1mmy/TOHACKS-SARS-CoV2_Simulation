@@ -6,10 +6,12 @@ WIDTH = 640
 HEIGHT = 480
 
 INFECTION_RADIUS = 10
-CHANCE_OF_INFECTION = 0.05
+CHANCE_OF_INFECTION = 20
 CURE_RATE = 1
 BASE_TIME = 3000000000
 PEOPLE_INFECTED = []
+SOCIAL_DISTANCING = True
+SOCIAL_DISTANCE = 60
 
 mouse_x = 0
 mouse_y = 0
@@ -44,38 +46,51 @@ def setup():
 
 
 def update(delta_time):
-    global ball_mvmt, position, ball_pos, time_elapsed
+    global ball_mvmt, position, ball_pos, time_elapsed, SOCIAL_DISTANCING
+    k = 0
+    min_distance = 100000
+    cls = -1
     for i in range(len(ball_mvmt)):
-        if random.randrange(50) == 0:
+        if random.randrange(30) == 0:
             ball_mvmt[i] = random.randrange(-2, 3)
             if(ball_mvmt[i] == 0 and random.randrange(2)==1): ball_mvmt[i] = 2
             elif ball_mvmt[i] == 0: ball_mvmt[i] = -2
+    #if time_elapsed >= 5:
+    #    SOCIAL_DISTANCING = True
     for i in range(len(ball_pos)):
-        k = random.randrange(5)
-        if ball_pos[i][0] >= WIDTH-100 or ball_pos[i][1] >= HEIGHT-100:
-            ball_mvmt[i] = -1 * (abs(ball_mvmt[i]))
+        if SOCIAL_DISTANCING :
+            for j in range(len(ball_pos)):
+                distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
+                if distance <= SOCIAL_DISTANCE and distance <= min_distance:
+                    cls = j
+            if cls != -1:
+                if ball_mvmt[cls] < 0:
+                    ball_mvmt[i] = -1*abs(ball_mvmt[i])
+                else: ball_mvmt[i] = abs(ball_mvmt[i])
+                cls = -1
+
+        k = random.randrange(4)
+        if ball_pos[i][0] >= 250 or ball_pos[i][1] >= 250:
+            ball_mvmt[i] = -1*abs(ball_mvmt[i])
         if ball_pos[i][1] <= 100 or ball_pos[i][0] <= 100:
             ball_mvmt[i] = abs(ball_mvmt[i])
 
-        if k == 0:
+        if k == 0: # Move along y = x
             ball_pos[i][0] += ball_mvmt[i]
             ball_pos[i][1] += ball_mvmt[i]
         elif k == 1:
             ball_pos[i][0] += ball_mvmt[i]
         elif k == 2:
             ball_pos[i][1] += ball_mvmt[i]
-        elif k == 3:
+        else: # Move along y = -x
             ball_pos[i][0] += ball_mvmt[i]
             ball_pos[i][1] -= ball_mvmt[i]
-        else:
-            ball_pos[i][0] -= ball_mvmt[i]
-            ball_pos[i][1] += ball_mvmt[i]
 
     for i in range(len(ball_pos)):
         for j in range(i + 1, len(ball_pos)):
             if ball_pos[j][2] != ball_pos[i][2]:
                 distance = ((ball_pos[j][0] - ball_pos[i][0]) ** 2 + (ball_pos[j][1] - ball_pos[i][1]) ** 2) ** (1 / 2)
-                if distance <= INFECTION_RADIUS and random.randrange(1/CHANCE_OF_INFECTION) == 0:
+                if distance <= INFECTION_RADIUS and random.randrange(100) < CHANCE_OF_INFECTION:
                     if ball_pos[i][2] == arcade.color.RED:
                         ball_pos[j][2] = arcade.color.RED
                         ball_pos[j][3] = time.time()
