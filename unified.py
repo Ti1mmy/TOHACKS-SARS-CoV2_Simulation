@@ -23,10 +23,22 @@ history = []
 time_elapsed = 0
 start = False
 reset = True # Button
+
+
 slider_x = WIDTH / 2
 slider_y = HEIGHT / 2
 slide_color = arcade.color.BLUE
 press = False # Slider
+
+slider_x1 = WIDTH / 2
+slider_y1 = HEIGHT / 2 - 100
+slide1_color = arcade.color.BLUE
+press1 = False # Slider
+
+slider_x2 = WIDTH / 2
+slider_y2 = HEIGHT / 2 - 200
+slide2_color = arcade.color.BLUE
+press2 = False # Slider
 
 for i in range(90):
     ball_pos.append([random.randrange(100, DOT_WIDTH-100), random.randrange(100, DOT_HEIGHT-100), arcade.color.BLACK, 0])
@@ -92,9 +104,9 @@ def dots():
 def sliders():
     global slide_color, slider_x, press
     if slider_x - 5 <= mouse_x <= slider_x + 5 and slider_y - 13 <= mouse_y <= slider_y + 13:
-        slide_color = arcade.color.DARK_GRAY
+        slide_color = arcade.color.GRAY
         if mouse_press:
-            slide_color = arcade.color.GRAY
+            slide_color = arcade.color.DARK_GRAY
             press = True
             if 700 < slider_x < 900:
                 slider_x = mouse_x
@@ -103,6 +115,7 @@ def sliders():
     elif press:
         if 700 < slider_x < 900:
             slider_x = mouse_x
+            slide_color = arcade.color.DARK_GRAY
     else:
         slide_color = arcade.color.BLUE
     if slider_x >= 900:
@@ -114,8 +127,61 @@ def sliders():
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x, slider_y, 10, 25, slide_color)
     arcade.draw_text(f'{((slider_x - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 30, arcade.color.BLACK)
-    draw_button(540, 50, 100, 30, arcade.color.GREEN, 'Graph', arcade.color.LIGHT_GREEN, arcade.color.RED)
 
+
+def sliders1():
+    global slide1_color, slider_x1, press1
+    if slider_x1 - 5 <= mouse_x <= slider_x1 + 5 and slider_y1 - 13 <= mouse_y <= slider_y1 + 13:
+        slide1_color = arcade.color.GRAY
+        if mouse_press:
+            slide1_color = arcade.color.DARK_GRAY
+            press1 = True
+            if 700 < slider_x1 < 900:
+                slider_x1 = mouse_x
+    elif not mouse_press and press1:
+        slide1_color = arcade.color.BLUE
+    elif press1:
+        if 700 < slider_x1 < 900:
+            slider_x1 = mouse_x
+            slide1_color = arcade.color.DARK_GRAY
+    else:
+        slide1_color = arcade.color.BLUE
+    if slider_x1 >= 900:
+        slider_x1 = 899
+    elif slider_x1 <= 700:
+        slider_x1 = 701
+    arcade.draw_text(f'mouse_x={mouse_x}\nmouse_y={mouse_y}\nmouse_press={mouse_press}\nslider_x1={slider_x1}', 0, 0,
+                     arcade.color.BLACK)
+    arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 100, 200, 5, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(slider_x1, slider_y1, 10, 25, slide1_color)
+    arcade.draw_text(f'{((slider_x1 - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 130, arcade.color.BLACK)
+    
+    
+def sliders2():
+    global slide2_color, slider_x2, press2
+    if slider_x2 - 5 <= mouse_x <= slider_x2 + 5 and slider_y2 - 13 <= mouse_y <= slider_y2 + 13:
+        slide2_color = arcade.color.GRAY
+        if mouse_press:
+            slide2_color = arcade.color.DARK_GRAY
+            press2 = True
+            if 700 < slider_x2 < 900:
+                slider_x2 = mouse_x
+    elif not mouse_press and press2:
+        slide2_color = arcade.color.BLUE
+    elif press2:
+        if 700 < slider_x2 < 900:
+            slider_x2 = mouse_x
+            slide2_color = arcade.color.DARK_GRAY
+    else:
+        slide2_color = arcade.color.BLUE
+    if slider_x2 >= 900:
+        slider_x2 = 899
+    elif slider_x2 <= 700:
+        slider_x2 = 701
+    arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 200, 200, 5, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(slider_x2, slider_y2, 10, 25, slide2_color)
+    arcade.draw_text(f'{((slider_x2 - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 230, arcade.color.BLACK)
+    
 
 def setup():
     arcade.open_window(WIDTH, HEIGHT, "TOHACKS SARS COV-2 Model")
@@ -190,7 +256,8 @@ def on_draw():
     else:
         draw_button(WIDTH - 100, 50, 100, 30, arcade.color.GREEN, 'Pause', arcade.color.LIGHT_GREEN, arcade.color.RED)
     sliders()
-
+    sliders1()
+    sliders2()
 
 def on_key_press(key, modifiers):
     pass
