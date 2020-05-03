@@ -46,9 +46,8 @@ press2 = False  # Slider
 
 population = 90
 prev = 90
-reset1= False # reset button
+reset1 = False # reset button
 restart = False
-
 for i in range(population):
     ball_pos.append(
         [random.randrange(100, DOT_WIDTH - 100), random.randrange(100, DOT_HEIGHT - 100), arcade.color.BLACK, 0])
@@ -99,7 +98,6 @@ def dots():
         else:
             ball_pos[i][0] -= ball_mvmt[i]
             ball_pos[i][1] += ball_mvmt[i]
-
     for i in range(len(ball_pos)):
         for j in range(i + 1, len(ball_pos)):
             if ball_pos[j][2] != ball_pos[i][2]:
@@ -115,7 +113,6 @@ def dots():
 
                         if ball_pos[j] not in PEOPLE_INFECTED:
                             PEOPLE_INFECTED.append(ball_pos[j])
-
                     elif ball_pos[j][2] == arcade.color.RED and ball_pos[i][2] == arcade.color.BLACK:
                         ball_pos[i][2] = arcade.color.RED
                         ball_pos[i][3] = time.time()
@@ -340,6 +337,7 @@ def on_draw():
     sliders2()
     draw_reset_button(WIDTH / 2, HEIGHT / 2 - 300, 150, 50, arcade.color.RED, "Reset", arcade.color.SALMON_PINK, arcade.color.PINK)
 
+
 def on_key_press(key, modifiers):
     pass
 
@@ -390,6 +388,7 @@ def draw_button(x, y, button_width, button_height, colour_default, text,
         arcade.draw_rectangle_filled(x, y, button_width, button_height,
                                      colour_default)
     arcade.draw_text(text, x - 25, y - 7, arcade.color.BLACK, 12, bold=True)
+
 
 def draw_reset_button(x, y, button_width, button_height, colour_default, text,
                 colour_hover, colour_press):
