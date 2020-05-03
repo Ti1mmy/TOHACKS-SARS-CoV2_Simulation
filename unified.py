@@ -98,11 +98,11 @@ def setup():
 def update(delta_time):
     if start:
         dots()
+        graph_data.append([population - len(history) - 1, (len(history) + 1) - CURED - DEAD, CURED, DEAD, time_elapsed])
     elif not start:
         initilization()
     if restart:
         reset_data()
-    graph_data.append([population - len(history) - 1, (len(history) + 1)-CURED-DEAD, CURED, DEAD, time_elapsed])
 
 
 def on_draw():
@@ -121,7 +121,6 @@ def on_draw():
         f'Number unaffected: {population - len(history) - 1}\nNumber infected: {(len(history) + 1)-CURED-DEAD}\nNumber cured: {CURED}\nNumber deceased: {DEAD}\nTime elapsed: {(time_elapsed):.2f}',
         20, HEIGHT / 2 + 200,
         arcade.color.BLACK, 18)
-
     if not start:
         draw_button(WIDTH - 100, 50, 100, 30, arcade.color.GREEN, 'Start', arcade.color.LIGHT_GREEN, arcade.color.RED)
     else:
@@ -186,20 +185,16 @@ def dots():
                         ball_pos[j][2] = arcade.color.RED
                         ball_pos[j][3] = time.time()
                         INFECTED += 1
-
                         if [i, j] not in history:
                             history.append([i, j])
-
                         if ball_pos[j] not in PEOPLE_INFECTED:
                             PEOPLE_INFECTED.append(ball_pos[j])
                     elif ball_pos[j][2] == arcade.color.RED and ball_pos[i][2] == arcade.color.BLACK:
                         ball_pos[i][2] = arcade.color.RED
                         ball_pos[i][3] = time.time()
                         INFECTED += 1
-
                         if [j, i] not in history:
                             history.append([j, i])
-
                         if ball_pos[i] not in PEOPLE_INFECTED:
                             PEOPLE_INFECTED.append(ball_pos[i])
     time_elapsed += 0.05
@@ -366,10 +361,12 @@ def draw_reset_button(x, y, button_width, button_height, colour_default, text,
 def reset_data():
     global history, ball_pos, ball_mvmt, time_elapsed, start, reset, slider_x, slider_y, slide_color, press, slider_x1, slider_y1, slide1_color, press1, slider_x2
     global slider_y2, slide2_color, press2, population, prev, restart, graph_data, CURED, INFECTED, DEAD
+    global INFECTION_RADIUS
+    global CHANCE_OF_INFECTION
+    global DEATH_RATE, CURE_RATE, BASE_TIME, PEOPLE_INFECTED
     history = []
     ball_pos = []
     ball_mvmt = []
-    history = []
     time_elapsed = 0
     start = False
     reset = True  # Button
@@ -402,8 +399,12 @@ def reset_data():
     CURED = 0
     INFECTED = 0
     DEAD = 0
-
-
+    INFECTION_RADIUS = 15
+    CHANCE_OF_INFECTION = 20
+    CURE_RATE = 300
+    DEATH_RATE = 1500
+    BASE_TIME = 11
+    PEOPLE_INFECTED = []
 
 def cure():
     global CURED, INFECTED, CURE_RATE
