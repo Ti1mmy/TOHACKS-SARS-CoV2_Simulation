@@ -17,6 +17,7 @@ mouse_press = False
 ball_pos = []
 ball_mvmt = []
 history = []
+time_elapsed = 0
 
 for i in range(90):
     ball_pos.append([random.randrange(100, WIDTH-100), random.randrange(100, HEIGHT-100), arcade.color.BLACK, 0])
@@ -43,7 +44,7 @@ def setup():
 
 
 def update(delta_time):
-    global ball_mvmt, position, ball_pos
+    global ball_mvmt, position, ball_pos, time_elapsed
     for i in range(len(ball_mvmt)):
         if random.randrange(50) == 0:
             ball_mvmt[i] = random.randrange(-2, 3)
@@ -91,7 +92,7 @@ def update(delta_time):
 
                     if ball_pos[j] not in PEOPLE_INFECTED:
                         PEOPLE_INFECTED.append(ball_pos[j])
-
+    time_elapsed += 0.05
     cure()
     print(history)
 
@@ -126,7 +127,8 @@ def on_draw():
         arcade.draw_circle_filled(ball_pos[i][0], ball_pos[i][1], 5, ball_pos[i][2])
     for i in range(len(history)):
         arcade.draw_line(ball_pos[history[i][0]][0], ball_pos[history[i][0]][1], ball_pos[history[i][1]][0], ball_pos[history[i][1]][1], arcade.color.RED)
-    arcade.draw_text_2(f'Number infected: {len(history)+1}\n', 0, 0, arcade.color.BLACK, 24)
+    arcade.draw_text(f'Number infected: {len(history) + 1}\nTime elapsed: {(time_elapsed):.2f}', 0, 0,
+                     arcade.color.BLACK, 18)
 def on_key_press(key, modifiers):
     pass
 
