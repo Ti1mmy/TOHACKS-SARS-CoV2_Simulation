@@ -42,6 +42,8 @@ press2 = False # Slider
 
 population = 90
 prev = 90
+reset1= False # reset button
+restart = False
 
 
 for i in range(population):
@@ -141,12 +143,10 @@ def sliders():
         slider_x = 899
     elif slider_x <= 700:
         slider_x = 701
-    arcade.draw_text(f'mouse_x={mouse_x}\nmouse_y={mouse_y}\nmouse_press={mouse_press}\nslider_x={slider_x}', 0, 0,
-                     arcade.color.BLACK)
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x, slider_y, 10, 25, slide_color)
-    arcade.draw_text(f'Population: {((slider_x - 700) // 2) + 1}', WIDTH / 2 - 20, HEIGHT / 2 - 30, arcade.color.BLACK)
-    prev = int(((slider_x - 700) // 2) + 1)
+    arcade.draw_text(f'Population: {((slider_x - 700) // 2) + 40}', WIDTH / 2 - 20, HEIGHT / 2 - 30, arcade.color.BLACK)
+    prev = int(((slider_x - 700) // 2) + 40)
 
 
 def sliders1():
@@ -171,8 +171,6 @@ def sliders1():
         slider_x1 = 899
     elif slider_x1 <= 700:
         slider_x1 = 701
-    arcade.draw_text(f'mouse_x={mouse_x}\nmouse_y={mouse_y}\nmouse_press={mouse_press}\nslider_x1={slider_x1}', 0, 0,
-                     arcade.color.BLACK)
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 100, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x1, slider_y1, 10, 25, slide1_color)
     arcade.draw_text(f'{((slider_x1 - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 130, arcade.color.BLACK)
@@ -223,10 +221,51 @@ def setup():
 
 
 def update(delta_time):
+    global history
     if start:
         dots()
     elif not start:
         initilization()
+    if restart:
+        reset_data()
+
+
+def reset_data():
+    global history, ball_pos, ball_mvmt, time_elapsed, start, reset, slider_x, slider_y, slide_color, press, slider_x1, slider_y1, slide1_color, press1, slider_x2
+    global slider_y2, slide2_color, press2, population, prev, restart
+    history = []
+    ball_pos = []
+    ball_mvmt = []
+    history = []
+    time_elapsed = 0
+    start = False
+    reset = True  # Button
+
+    slider_x = WIDTH / 2
+    slider_y = HEIGHT / 2
+    slide_color = arcade.color.BLUE
+    press = False  # Slider
+
+    slider_x1 = WIDTH / 2
+    slider_y1 = HEIGHT / 2 - 100
+    slide1_color = arcade.color.BLUE
+    press1 = False  # Slider
+
+    slider_x2 = WIDTH / 2
+    slider_y2 = HEIGHT / 2 - 200
+    slide2_color = arcade.color.BLUE
+    press2 = False  # Slider
+
+    population = 90
+    prev = 90
+    for i in range(population):
+        ball_pos.append(
+            [random.randrange(100, DOT_WIDTH - 100), random.randrange(100, DOT_HEIGHT - 100), arcade.color.BLACK, 0])
+        ball_mvmt.append(random.randrange(-2, 3))
+    for i in range(1):
+        ball_pos[0][2] = arcade.color.RED
+    restart=False
+
 
 def cure():
     pop_list = []
@@ -281,6 +320,8 @@ def on_draw():
     sliders()
     sliders1()
     sliders2()
+    draw_reset_button(WIDTH / 2, HEIGHT / 2 - 300, 150, 50, arcade.color.RED, "Reset", arcade.color.SALMON_PINK, arcade.color.PINK)
+
 
 def on_key_press(key, modifiers):
     pass
@@ -333,6 +374,31 @@ def draw_button(x, y, button_width, button_height, colour_default, text,
                                      colour_default)
     arcade.draw_text_2(text, x-25, y-7, arcade.color.BLACK, 12, bold=True)
 
+
+def draw_reset_button(x, y, button_width, button_height, colour_default, text,
+                colour_hover, colour_press):
+    global restart, reset1
+    if x + (button_width / 2) > mouse_x > x - (button_width / 2) and \
+            y - (button_height / 2) < mouse_y < y + (button_height / 2) and \
+            mouse_press:
+        arcade.draw_rectangle_filled(x, y, button_width, button_height,
+                                     colour_press)
+        if not start and reset:
+            restart = True
+            reset1 = False
+        elif start and reset:
+            restart = False
+            reset1 = False
+    elif x + (button_width / 2) > mouse_x > x - (button_width / 2) and \
+            y - (button_height / 2) < mouse_y < y + (button_height / 2) and \
+            not mouse_press:
+        arcade.draw_rectangle_filled(x, y, button_width, button_height,
+                                     colour_hover)
+        reset1 = True
+    else:
+        arcade.draw_rectangle_filled(x, y, button_width, button_height,
+                                     colour_default)
+    arcade.draw_text_2(text, x-25, y-7, arcade.color.BLACK, 12, bold=True)
 
 
 if __name__ == '__main__':
