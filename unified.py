@@ -335,9 +335,9 @@ def on_draw():
     arcade.draw_circle_filled(10, 740, 5, arcade.color.BLACK)  # Unaffected
     arcade.draw_circle_filled(10, 720, 5, arcade.color.RED)  # Infected
     arcade.draw_circle_filled(10, 700, 5, arcade.color.GRAY)  # Cured
-    arcade.draw_circle_filled(10, 680, 5, arcade.color.YELLOW)  # Infected
+    arcade.draw_circle_filled(10, 680, 5, arcade.color.YELLOW)  # Dead
     arcade.draw_text(
-        f'Number unaffected: {population - len(history) - 1}\nNumber infected: {len(history) + 1}\nNumber cured: {CURED}\nNumber deceased: {DEAD}\nTime elapsed: {(time_elapsed):.2f} {mouse_x, mouse_y}',
+        f'Number unaffected: {population - len(history) - 1}\nNumber infected: {(len(history) + 1)-CURED-DEAD}\nNumber cured: {CURED}\nNumber deceased: {DEAD}\nTime elapsed: {(time_elapsed):.2f}',
         20, HEIGHT / 2 + 200,
         arcade.color.BLACK, 18)
 
