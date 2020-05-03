@@ -143,10 +143,10 @@ def graph():
     arcade.draw_line(middle_x - width/2, middle_y - length/2 + 20, middle_x + width/2, middle_y - length/2 + 20, arcade.color.BLACK)
     arcade.draw_line(middle_x - width/2 + 20, middle_y - length/2, middle_x - width/2 + 20, middle_y + length/2, arcade.color.BLACK)
     for point in graph_data:
-        arcade.draw_point(point[4] * 4 + middle_x - width/2 + 20, point[0] * 4 + middle_y - length/2 + 20, arcade.color.BLACK, 5)
-        arcade.draw_point(point[4] * 4 + middle_x - width/2 + 20, point[1] * 4 + middle_y - length/2 + 20, arcade.color.RED, 5)
-        arcade.draw_point(point[4] * 4 + middle_x - width/2 + 20, point[2] * 4 + middle_y - length/2 + 20, arcade.color.GRAY, 5)
-        arcade.draw_point(point[4] * 4 + middle_x - width/2 + 20, point[3] * 4 + middle_y - length/2 + 20, arcade.color.YELLOW, 5)
+        arcade.draw_point(point[4] * 3 + middle_x - width/2 + 20, point[0] * 3 + middle_y - length/2 + 20, arcade.color.BLACK, 5)
+        arcade.draw_point(point[4] * 3 + middle_x - width/2 + 20, point[1] * 3 + middle_y - length/2 + 20, arcade.color.RED, 5)
+        arcade.draw_point(point[4] * 3 + middle_x - width/2 + 20, point[2] * 3 + middle_y - length/2 + 20, arcade.color.GRAY, 5)
+        arcade.draw_point(point[4] * 3 + middle_x - width/2 + 20, point[3] * 3 + middle_y - length/2 + 20, arcade.color.YELLOW, 5)
 
 
 def dots():
