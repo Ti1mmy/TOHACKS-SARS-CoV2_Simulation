@@ -17,7 +17,7 @@ HEIGHT = 900
 DOT_WIDTH = 640
 DOT_HEIGHT = 480
 
-INFECTION_RADIUS = 10
+INFECTION_RADIUS = 15
 CHANCE_OF_INFECTION = 20
 CURE_RATE = 300
 DEATH_RATE = 1500
@@ -43,7 +43,7 @@ slider_y = HEIGHT / 2
 slide_color = arcade.color.BLUE
 press = False  # Slider
 
-slider_x1 = WIDTH / 2 - 50
+slider_x1 = WIDTH / 2 - 70
 slider_y1 = HEIGHT / 2 - 100
 slide1_color = arcade.color.BLUE
 press1 = False  # Slider
@@ -297,15 +297,15 @@ def sliders2():
         slider_x2 = 701
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2 - 200, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x2, slider_y2, 10, 25, slide2_color)
-    
+
     if slider_x2 >= 833:
-        arcade.draw_text(f'Cure Rate: High', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+        arcade.draw_text(f'Cure Rate: High', WIDTH / 2 - 20, HEIGHT / 2 - 230,
                          arcade.color.BLACK)
     elif slider_x2 <= 777:
-        arcade.draw_text(f'Cure Rate: Low', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+        arcade.draw_text(f'Cure Rate: Low', WIDTH / 2 - 20, HEIGHT / 2 - 230,
                          arcade.color.BLACK)
     else:
-        arcade.draw_text(f'Cure Rate: Medium', WIDTH / 2 - 20, HEIGHT / 2 - 130,
+        arcade.draw_text(f'Cure Rate: Medium', WIDTH / 2 - 20, HEIGHT / 2 - 230,
                          arcade.color.BLACK)
 
     CURE_RATE = (200 - (slider_x2 - 700)) * 10
@@ -379,12 +379,12 @@ def reset_data():
     slide_color = arcade.color.BLUE
     press = False  # Slider
 
-    slider_x1 = WIDTH / 2
+    slider_x1 = WIDTH / 2 - 70
     slider_y1 = HEIGHT / 2 - 100
     slide1_color = arcade.color.BLUE
     press1 = False  # Slider
 
-    slider_x2 = WIDTH / 2
+    slider_x2 = WIDTH / 2 + 70
     slider_y2 = HEIGHT / 2 - 200
     slide2_color = arcade.color.BLUE
     press2 = False  # Slider
