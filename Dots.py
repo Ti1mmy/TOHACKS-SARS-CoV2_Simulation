@@ -8,7 +8,7 @@ HEIGHT = 480
 INFECTION_RADIUS = 10
 CHANCE_OF_INFECTION = 20
 CURE_RATE = 1
-BASE_TIME = 1000000000
+BASE_TIME = 3000000000
 PEOPLE_INFECTED = []
 
 mouse_x = 0
@@ -81,6 +81,8 @@ def update(delta_time):
 
                     if ball_pos[j] not in PEOPLE_INFECTED:
                         PEOPLE_INFECTED.append(ball_pos[j])
+
+    cure()
     print(history)
 
 
@@ -88,10 +90,10 @@ def cure():
     pop_list = []
 
     for i in range(len(PEOPLE_INFECTED)):
-        if random.randrange(100) < CURE_RATE and time.time() - PEOPLE_INFECTED[i].timeInfected >= BASE_TIME:
+        if random.randrange(100) < CURE_RATE and time.time() - PEOPLE_INFECTED[i][3] >= BASE_TIME:
             luckyBoi = random.choice(PEOPLE_INFECTED)
             pop_list.append(PEOPLE_INFECTED.index(luckyBoi))
-            luckyBoi.infected = False
+            luckyBoi[2] = arcade.color.BLACK
 
     for i in range(0, len(pop_list), -1):
         PEOPLE_INFECTED.pop(pop_list[i])
