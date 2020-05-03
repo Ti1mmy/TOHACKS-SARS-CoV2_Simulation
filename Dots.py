@@ -1,3 +1,12 @@
+"""
+TODO
+
+* More than 1 patient-0s
+    * Will have to be different colours
+* Set boundaries to work properly
+* More data output/inputs
+"""
+
 import arcade
 import time
 import random
@@ -21,8 +30,7 @@ history = []
 for i in range(90):
     ball_pos.append([random.randrange(100, WIDTH-100), random.randrange(100, HEIGHT-100), arcade.color.BLACK])
     ball_mvmt.append(random.randrange(-2, 3))
-for i in range(1):
-    ball_pos[0][2] = arcade.color.RED
+ball_pos[0][2] = arcade.color.RED
 
 
 def setup():
