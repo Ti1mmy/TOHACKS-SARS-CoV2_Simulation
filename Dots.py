@@ -73,6 +73,12 @@ def update(delta_time):
                         ball_pos[i][2] = arcade.color.RED
                         if [j, i] not in history:
                             history.append([j, i])
+                            
+                    if ball_pos[i] not in PEOPLE_INFECTED:
+                        PEOPLE_INFECTED.append(ball_pos[i])
+                        
+                    if ball_pos[j] not in PEOPLE_INFECTED:
+                        PEOPLE_INFECTED.append(ball_pos[j])
     print(history)
 
 
