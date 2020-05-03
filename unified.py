@@ -23,6 +23,10 @@ history = []
 time_elapsed = 0
 start = False
 reset = True # Button
+slider_x = WIDTH / 2
+slider_y = HEIGHT / 2
+slide_color = arcade.color.BLUE
+press = False # Slider
 
 for i in range(90):
     ball_pos.append([random.randrange(100, DOT_WIDTH-100), random.randrange(100, DOT_HEIGHT-100), arcade.color.BLACK, 0])
@@ -83,6 +87,34 @@ def dots():
     time_elapsed += 0.05
     cure()
     print(history)
+
+
+def sliders():
+    global slide_color, slider_x, press
+    if slider_x - 5 <= mouse_x <= slider_x + 5 and slider_y - 13 <= mouse_y <= slider_y + 13:
+        slide_color = arcade.color.DARK_GRAY
+        if mouse_press:
+            slide_color = arcade.color.GRAY
+            press = True
+            if 700 < slider_x < 900:
+                slider_x = mouse_x
+    elif not mouse_press and press:
+        slide_color = arcade.color.BLUE
+    elif press:
+        if 700 < slider_x < 900:
+            slider_x = mouse_x
+    else:
+        slide_color = arcade.color.BLUE
+    if slider_x >= 900:
+        slider_x = 899
+    elif slider_x <= 700:
+        slider_x = 701
+    arcade.draw_text(f'mouse_x={mouse_x}\nmouse_y={mouse_y}\nmouse_press={mouse_press}\nslider_x={slider_x}', 0, 0,
+                     arcade.color.BLACK)
+    arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2, 200, 5, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(slider_x, slider_y, 10, 25, slide_color)
+    arcade.draw_text(f'{((slider_x - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 30, arcade.color.BLACK)
+    draw_button(540, 50, 100, 30, arcade.color.GREEN, 'Graph', arcade.color.LIGHT_GREEN, arcade.color.RED)
 
 
 def setup():
@@ -157,6 +189,8 @@ def on_draw():
         draw_button(WIDTH - 100, 50, 100, 30, arcade.color.GREEN, 'Start', arcade.color.LIGHT_GREEN, arcade.color.RED)
     else:
         draw_button(WIDTH - 100, 50, 100, 30, arcade.color.GREEN, 'Pause', arcade.color.LIGHT_GREEN, arcade.color.RED)
+    sliders()
+
 
 def on_key_press(key, modifiers):
     pass
