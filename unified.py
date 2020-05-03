@@ -40,11 +40,29 @@ slider_y2 = HEIGHT / 2 - 200
 slide2_color = arcade.color.BLUE
 press2 = False # Slider
 
-for i in range(90):
+population = 90
+prev = 90
+
+
+for i in range(population):
     ball_pos.append([random.randrange(100, DOT_WIDTH-100), random.randrange(100, DOT_HEIGHT-100), arcade.color.BLACK, 0])
     ball_mvmt.append(random.randrange(-2, 3))
 for i in range(1):
     ball_pos[0][2] = arcade.color.RED
+
+
+def initilization():
+    global ball_pos, population
+    if population != prev:
+        population = prev
+        ball_pos = []
+        for i in range(population):
+            ball_pos.append(
+                [random.randrange(100, DOT_WIDTH - 100), random.randrange(100, DOT_HEIGHT - 100), arcade.color.BLACK, 0])
+            ball_mvmt.append(random.randrange(-2, 3))
+        for i in range(1):
+            ball_pos[0][2] = arcade.color.RED
+
 
 def dots():
     global ball_mvmt, position, ball_pos, time_elapsed
@@ -102,7 +120,7 @@ def dots():
 
 
 def sliders():
-    global slide_color, slider_x, press
+    global slide_color, slider_x, press, prev
     if slider_x - 5 <= mouse_x <= slider_x + 5 and slider_y - 13 <= mouse_y <= slider_y + 13:
         slide_color = arcade.color.GRAY
         if mouse_press:
@@ -127,7 +145,8 @@ def sliders():
                      arcade.color.BLACK)
     arcade.draw_rectangle_outline(WIDTH / 2, HEIGHT / 2, 200, 5, arcade.color.BLACK)
     arcade.draw_rectangle_filled(slider_x, slider_y, 10, 25, slide_color)
-    arcade.draw_text(f'{((slider_x - 220) // 2):.2f}%', WIDTH / 2 - 20, HEIGHT / 2 - 30, arcade.color.BLACK)
+    arcade.draw_text(f'Population: {((slider_x - 700) // 2) + 1}', WIDTH / 2 - 20, HEIGHT / 2 - 30, arcade.color.BLACK)
+    prev = int(((slider_x - 700) // 2) + 1)
 
 
 def sliders1():
@@ -206,7 +225,8 @@ def setup():
 def update(delta_time):
     if start:
         dots()
-
+    elif not start:
+        initilization()
 
 def cure():
     pop_list = []
