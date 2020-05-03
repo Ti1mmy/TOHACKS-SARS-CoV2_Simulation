@@ -1,4 +1,4 @@
-import arcade
+import arcadeplus as arcade
 import time
 
 WIDTH = 1280

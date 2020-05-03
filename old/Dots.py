@@ -1,4 +1,4 @@
-import arcade
+import arcadeplus as arcade
 import time
 import random
 
