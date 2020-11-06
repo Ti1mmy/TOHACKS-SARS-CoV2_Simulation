@@ -1,5 +1,5 @@
 # TOHACKS-SARS-COV2_MODEL
-Submission for the MLH TOHACKS 2020 Competition
+TOHACKS-SARS-CoV2_Simulation
 
 ## Download
 [Compiled executable](https://github.com/Ti1mmy/TOHACKS-SARS-COV2_MODEL/releases)
