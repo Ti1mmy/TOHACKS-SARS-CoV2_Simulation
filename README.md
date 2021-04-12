@@ -6,5 +6,8 @@ Allows user to specify certain conditions (ex. number of people in simulation) a
 Quick demo showing our project:
 https://www.youtube.com/watch?v=ytIPoJzOMwk
 
+#### Contributors:
+Timothy Zheng, Eric Ji, Yang Xu
+
 ## Download
 [Compiled executable](https://github.com/Ti1mmy/TOHACKS-SARS-COV2_MODEL/releases)
